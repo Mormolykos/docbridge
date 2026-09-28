@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docbridge"
+version = "0.2.4"
+description = "Document conversion (PDF, DOCX, Markdown, TXT, images) with a fidelity report that says what was checked, what failed and what was never checked."
+requires-python = ">=3.10"
+# AGPL-3.0, as PyMuPDF, which docbridge imports.
+license = { text = "AGPL-3.0-only" }
+authors = [{ name = "Panagiotis Gkilis" }]
+# Exact pins. Text extraction is the measurement instrument here, and a PyMuPDF
+# upgrade can change what a PDF's text layer reads as. Every report records the
+# versions it ran with; these pins are what the test suite was run against.
+dependencies = [
+    "mcp==2.0.0",
+    "pydantic>=2.13,<3",
+    "pymupdf==1.27.2.3",
+    "python-docx==1.2.0",
+    "markdown-it-py==4.2.0",
+    "pillow==12.2.0",
+    "lxml==6.1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+
+[project.scripts]
+docbridge-mcp = "docbridge.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
